@@ -5,91 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Happy Birthday 🎉</title>
     <link rel="icon" type="image/png" href="./kiss.gif" />
-    <style>
-      body {
-        font-family: 'Poppins', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
-        background: linear-gradient(to right, #ffe0eb, #dff7ff);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
-
-      .container {
-        background: linear-gradient(135deg, #ffd1dc, #d0f0fd);
-        padding: 2rem 3rem;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease;
-      }
-
-      .container:hover {
-        transform: translateY(-5px);
-      }
-
-      h1 {
-        margin-bottom: 1rem;
-        font-size: 2rem;
-      }
-
-      p {
-        margin: 0.5rem 0;
-        line-height: 1.5;
-        font-size: 1.1rem;
-      }
-
-      .line {
-        padding: 0.3rem 0.6rem;
-        border-radius: 10px;
-        display: inline-block;
-        margin: 0.3rem 0;
-        font-weight: 500;
-      }
-
-      button {
-        background-color: #ff5fa2;
-        color: white;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: 1rem;
-        margin-top: 1rem;
-        transition: background 0.3s, transform 0.2s;
-      }
-
-      button:hover {
-        background-color: #ff7bbf;
-        transform: scale(1.05);
-      }
-
-      .hidden { display: none; }
-
-      #mediaSection {
-        margin-top: 1.5rem;
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-
-      img {
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
-        object-fit: cover;
-        transition: transform 0.3s;
-      }
-
-      img:hover { transform: scale(1.1); }
-    </style>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div class="container">
       <h1>🎂 Happy Birthday, SALMA OCTAVIANI! 🎉</h1>
+      
       <div id="message"></div>
+      
       <button id="startBtn">Klik ini 🥰</button>
 
       <div id="mediaSection" class="hidden">
@@ -99,89 +22,11 @@
       </div>
     </div>
 
-    <script type="module">
-      const startBtn = document.getElementById('startBtn');
-      const messageDiv = document.getElementById('message');
-      const mediaSection = document.getElementById('mediaSection');
-      const music = document.getElementById('music');
+    <!-- Overlay untuk zoom gambar -->
+    <div id="overlay">
+      <img src="" alt="Zoomed Image" />
+    </div>
 
-      const messages = [
-        "🎂 Jangan lupa tiup lilinnya yaa 🎂",
-        "Selamat ulang tahun yang ke-22, Salma 🥳",
-        "Aku bersyukur bisa mengenalmu lebih dalam ❤️",
-        "Semoga setiap langkahmu penuh tawa, cahaya, dan kebahagiaan 💐",
-        "Selamat ulang tahun ya Salma 🌸",
-        "Barakallah fii umrik 🤍"
-      ];
-
-      const colors = ['#ffadad','#ffd6a5','#fdffb6','#caffbf','#9bf6ff','#bdb2ff'];
-
-      let isTyping = false;
-      let messageIndex = 0;
-
-      function typeMessage(text, callback) {
-        let index = 0;
-        const speed = 50;
-
-        const p = document.createElement('p');
-        p.classList.add('line');
-        p.style.backgroundColor = colors[messageIndex % colors.length];
-        p.style.color = '#333';
-        messageDiv.appendChild(p);
-
-        function typing() {
-          if (index < text.length) {
-            p.textContent += text.charAt(index);
-            index++;
-            setTimeout(typing, speed);
-          } else if (callback) {
-            setTimeout(callback, 600);
-          }
-        }
-
-        typing();
-      }
-
-      function startTyping() {
-        if (isTyping) return;
-        isTyping = true;
-        startBtn.disabled = true;
-
-        music.currentTime = 0;
-        music.play().catch(err => console.warn("Audio gagal diputar:", err));
-
-        messageDiv.innerHTML = '';
-        mediaSection.classList.add('hidden');
-        messageIndex = 0;
-
-        let i = 0;
-        function next() {
-          if (i < messages.length) {
-            typeMessage(messages[i], () => {
-              i++;
-              messageIndex++;
-              next();
-            });
-          } else {
-            setTimeout(() => {
-              mediaSection.classList.remove('hidden');
-              mediaSection.style.opacity = 0;
-              let opacity = 0;
-              const fadeIn = setInterval(() => {
-                opacity += 0.05;
-                mediaSection.style.opacity = opacity;
-                if (opacity >= 1) clearInterval(fadeIn);
-              }, 30);
-              isTyping = false;
-              startBtn.disabled = false;
-            }, 800);
-          }
-        }
-
-        next();
-      }
-
-      startBtn.addEventListener('click', startTyping);
-    </script>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>

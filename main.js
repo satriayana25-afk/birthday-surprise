@@ -2,19 +2,22 @@ const startBtn = document.getElementById('startBtn');
 const messageDiv = document.getElementById('message');
 const mediaSection = document.getElementById('mediaSection');
 const music = document.getElementById('music');
+const overlay = document.getElementById('overlay');
+const overlayImg = overlay.querySelector('img');
 
 const messages = [
   "🎂 Jangan lupa tiup lilinnya yaa 🎂",
-  "Selamat ulang tahun yang ke-22, Salma 🥳",
+  "Selamat ulang tahun yang ke-22, Emma 🥳",
   "Aku bersyukur bisa mengenalmu lebih dalam ❤️",
   "Semoga setiap langkahmu penuh tawa, cahaya, dan kebahagiaan 💐",
-  "Selamat ulang tahun ya Salma 🌸",
+  "Selamat ulang tahun ya Emma 🌸",
   "Barakallah fii umrik 🤍"
 ];
 
 function typeMessage(text, callback) {
   let index = 0;
   const speed = 50;
+
   const p = document.createElement('p');
   p.classList.add('line');
   messageDiv.appendChild(p);
@@ -37,10 +40,9 @@ let isTyping = false;
 function startTyping() {
   if (isTyping) return;
   isTyping = true;
-  startBtn.disabled = true;
 
   music.currentTime = 0;
-  music.play().catch(err => console.warn("Audio gagal diputar:", err));
+  music.play();
 
   messageDiv.innerHTML = '';
   mediaSection.classList.add('hidden');
@@ -53,15 +55,7 @@ function startTyping() {
     } else {
       setTimeout(() => {
         mediaSection.classList.remove('hidden');
-        mediaSection.style.opacity = 0;
-        let opacity = 0;
-        const fadeIn = setInterval(() => {
-          opacity += 0.05;
-          mediaSection.style.opacity = opacity;
-          if (opacity >= 1) clearInterval(fadeIn);
-        }, 30);
         isTyping = false;
-        startBtn.disabled = false;
       }, 800);
     }
   }
@@ -70,3 +64,15 @@ function startTyping() {
 }
 
 startBtn.addEventListener('click', startTyping);
+
+// Zoom gambar
+document.querySelectorAll('#mediaSection img').forEach(img => {
+  img.addEventListener('click', () => {
+    overlayImg.src = img.src;
+    overlay.style.display = 'flex';
+  });
+});
+
+overlay.addEventListener('click', () => {
+  overlay.style.display = 'none';
+});
